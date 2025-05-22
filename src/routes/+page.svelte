@@ -1,294 +1,619 @@
 <script>
   import { onMount } from 'svelte';
 
-  // Quiz data structure
+  // Quiz data structure based on CSV
   const quizData = [
     {
-      question: "How do you prefer to expand your influence?",
+      question: "How would you expand your empire?",
       choices: [
         {
-          text: "Through military conquest and strategic warfare",
+          text: "Violently raid them",
           rulers: [
-            { name: "Genghis Khan", points: 10 },
-            { name: "Alexander the Great", points: 8 },
-            { name: "Julius Caesar", points: 5 }
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 3 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 2 },
+            { name: "Mansa Musa", points: 2 },
+            { name: "Donald Trump", points: 2 }
           ]
         },
         {
-          text: "Through diplomacy and political alliances",
+          text: "Purchase them from another state",
           rulers: [
-            { name: "Cleopatra", points: 10 },
-            { name: "Augustus", points: 7 },
-            { name: "Catherine the Great", points: 6 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 4 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 4 },
+            { name: "Donald Trump", points: 6 }
           ]
         },
         {
-          text: "Through cultural and artistic achievements",
+          text: "Methodically capture and control territory",
           rulers: [
-            { name: "Emperor Ashoka", points: 9 },
-            { name: "Queen Elizabeth I", points: 8 },
-            { name: "Louis XIV", points: 10 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 1 },
+            { name: "Joseph Stalin", points: 2 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 1 }
+          ]
+        },
+        {
+          text: "Install puppet rulers in your prey's government",
+          rulers: [
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 1 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         }
       ]
     },
     {
-      question: "How do you handle opposition?",
+      question: "How would you deal with protestors?",
       choices: [
         {
-          text: "Crush them swiftly and completely",
+          text: "Give them more work, they can't protest if they are too tired/don't have time",
           rulers: [
-            { name: "Genghis Khan", points: 10 },
-            { name: "Attila the Hun", points: 9 },
-            { name: "Ramses II", points: 7 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "Convert them to your cause",
+          text: "Police, drive them out",
           rulers: [
-            { name: "Constantine", points: 8 },
-            { name: "Emperor Ashoka", points: 10 },
-            { name: "Cyrus the Great", points: 6 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 4 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 2 }
           ]
         },
         {
-          text: "Negotiate and find common ground",
+          text: "Kill them, make an example",
           rulers: [
-            { name: "Solomon", points: 9 },
-            { name: "Queen Elizabeth I", points: 7 },
-            { name: "Augustus", points: 8 }
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 5 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 1 }
+          ]
+        },
+        {
+          text: "Make propaganda about them",
+          rulers: [
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 1 },
+            { name: "Mao Zedong", points: 4 },
+            { name: "Joseph Stalin", points: 5 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 6 }
           ]
         }
       ]
     },
     {
-      question: "What legacy would you want to leave behind?",
+      question: "How tolerant would you be towards other religions?",
       choices: [
         {
-          text: "A vast empire that spans continents",
+          text: "There are other religions?",
           rulers: [
-            { name: "Alexander the Great", points: 10 },
-            { name: "Genghis Khan", points: 9 },
-            { name: "Charlemagne", points: 7 }
+            { name: "Genghis Khan", points: 3 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 1 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 1 },
+            { name: "Donald Trump", points: 2 }
           ]
         },
         {
-          text: "Cultural and architectural wonders",
+          text: "I do not care about religion and politics",
           rulers: [
-            { name: "Emperor Ashoka", points: 8 },
-            { name: "Ramses II", points: 10 },
-            { name: "Louis XIV", points: 9 }
+            { name: "Genghis Khan", points: 4 },
+            { name: "Napoleon", points: 3 },
+            { name: "Mao Zedong", points: 4 },
+            { name: "Joseph Stalin", points: 4 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 1 }
           ]
         },
         {
-          text: "Legal and political systems that last for centuries",
+          text: "I'm tolerant towards other religions",
           rulers: [
-            { name: "Justinian I", points: 10 },
-            { name: "Augustus", points: 9 },
-            { name: "Hammurabi", points: 8 }
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 4 },
+            { name: "Joseph Stalin", points: 4 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 4 }
+          ]
+        },
+        {
+          text: "I hate them; Kick them out",
+          rulers: [
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 1 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 6 }
           ]
         }
       ]
     },
     {
-      question: "How do you view religion's role in governance?",
+      question: "How free would your empire be?",
       choices: [
         {
-          text: "Religion should be the foundation of the state",
+          text: "All people have many rights with property and in the court",
           rulers: [
-            { name: "Constantine", points: 9 },
-            { name: "Akbar", points: 7 },
-            { name: "Saladin", points: 10 }
+            { name: "Genghis Khan", points: 1 },
+            { name: "Napoleon", points: 3 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 4 },
+            { name: "Donald Trump", points: 2 }
           ]
         },
         {
-          text: "Religion is a useful tool for controlling the population",
+          text: "I am a strict, tyrannical ruler with many restrictions on the people",
           rulers: [
-            { name: "Augustus", points: 8 },
-            { name: "Catherine the Great", points: 7 },
-            { name: "Qin Shi Huang", points: 9 }
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 4 },
+            { name: "Joseph Stalin", points: 5 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 2 }
           ]
         },
         {
-          text: "The state should be secular or tolerant of different religions",
+          text: "Democracy for land-owning elites only",
           rulers: [
-            { name: "Cyrus the Great", points: 10 },
-            { name: "Akbar", points: 9 },
-            { name: "Marcus Aurelius", points: 8 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 4 }
+          ]
+        },
+        {
+          text: "Taxes in exchange for religious tolerance",
+          rulers: [
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 2 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 2 }
           ]
         }
       ]
     },
     {
-      question: "How would you handle economic policy?",
+      question: "How generous would you be with your money?",
       choices: [
         {
-          text: "Heavy taxation to fund military campaigns and grand projects",
+          text: "Hoard it all",
           rulers: [
-            { name: "Louis XIV", points: 10 },
-            { name: "Qin Shi Huang", points: 8 },
-            { name: "Ramses II", points: 7 }
+            { name: "Genghis Khan", points: 3 },
+            { name: "Napoleon", points: 4 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 2 },
+            { name: "Donald Trump", points: 6 }
           ]
         },
         {
-          text: "Encourage trade and commerce to increase prosperity",
+          text: "Money for everyone!",
           rulers: [
-            { name: "Queen Elizabeth I", points: 9 },
-            { name: "Cleopatra", points: 8 },
-            { name: "Solomon", points: 10 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "Focus on agricultural development and land reforms",
+          text: "They need to make their own money",
           rulers: [
-            { name: "Emperor Ashoka", points: 8 },
-            { name: "Charlemagne", points: 7 },
-            { name: "Cyrus the Great", points: 9 }
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 1 },
+            { name: "Joseph Stalin", points: 1 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 5 }
+          ]
+        },
+        {
+          text: "The money should go towards industry and the economy",
+          rulers: [
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 3 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 2 },
+            { name: "Donald Trump", points: 3 }
           ]
         }
       ]
     },
     {
-      question: "What is your approach to education and knowledge?",
+      question: "How would you consolidate power?",
       choices: [
         {
-          text: "Focus on practical skills and military training",
+          text: "Inherit the monarchy",
           rulers: [
-            { name: "Genghis Khan", points: 8 },
-            { name: "Sparta's Lycurgus", points: 10 },
-            { name: "Julius Caesar", points: 6 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "Patronize arts, science, and philosophy",
+          text: "Get the vote of the people, and of the businesses",
           rulers: [
-            { name: "Augustus", points: 8 },
-            { name: "Akbar", points: 9 },
-            { name: "Marcus Aurelius", points: 10 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 6 }
           ]
         },
         {
-          text: "Standardize education to promote unity and loyalty",
+          text: "Take over during revolution",
           rulers: [
-            { name: "Qin Shi Huang", points: 10 },
-            { name: "Charlemagne", points: 8 },
-            { name: "Catherine the Great", points: 7 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
+          ]
+        },
+        {
+          text: "Kill everyone",
+          rulers: [
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         }
       ]
     },
     {
-      question: "How do you respond to natural disasters or plagues?",
+      question: "How much would you benefit the business owners?",
       choices: [
         {
-          text: "See them as divine judgment and offer sacrifices",
+          text: "Let them do what they want",
           rulers: [
-            { name: "Ramses II", points: 9 },
-            { name: "Constantine", points: 8 },
-            { name: "Montezuma", points: 10 }
+            { name: "Genghis Khan", points: 4 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 6 }
           ]
         },
         {
-          text: "Organize relief efforts and public works",
+          text: "Create state-sponsored trade expeditions and organizations",
           rulers: [
-            { name: "Emperor Ashoka", points: 10 },
-            { name: "Augustus", points: 8 },
-            { name: "Cyrus the Great", points: 9 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 3 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "Use them as an opportunity to eliminate opponents",
+          text: "Prohibit business owners, all money goes to the state",
           rulers: [
-            { name: "Qin Shi Huang", points: 9 },
-            { name: "Catherine the Great", points: 7 },
-            { name: "Attila the Hun", points: 8 }
+            { name: "Genghis Khan", points: 1 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
+          ]
+        },
+        {
+          text: "Execute the richest occasionally to confiscate wealth",
+          rulers: [
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 5 },
+            { name: "Mao Zedong", points: 4 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         }
       ]
     },
     {
-      question: "What is your approach to justice and law?",
+      question: "Are you fighting for an oppressed group?",
       choices: [
         {
-          text: "Harsh punishments to maintain order",
+          text: "Yes, I want my people to have more rights and be free",
           rulers: [
-            { name: "Qin Shi Huang", points: 10 },
-            { name: "Genghis Khan", points: 8 },
-            { name: "Hammurabi", points: 9 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 1 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "Fair and consistent application of laws",
+          text: "Yes but only so when I gain ruling power, I can control them for my own gain",
           rulers: [
-            { name: "Justinian I", points: 10 },
-            { name: "Marcus Aurelius", points: 9 },
-            { name: "Solomon", points: 8 }
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 3 },
+            { name: "Mao Zedong", points: 5 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "Merciful and focused on rehabilitation",
+          text: "No, I am not fighting for any group",
           rulers: [
-            { name: "Emperor Ashoka", points: 10 },
-            { name: "Cyrus the Great", points: 9 },
-            { name: "Akbar", points: 8 }
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 4 },
+            { name: "Donald Trump", points: 2 }
+          ]
+        },
+        {
+          text: "I oppress other groups/classes",
+          rulers: [
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 6 }
           ]
         }
       ]
     },
     {
-      question: "How do you view your subjects?",
+      question: "How would you like to leave your legacy?",
       choices: [
         {
-          text: "They exist to serve the ruler and the state",
+          text: "A vast empire spanning continents",
           rulers: [
-            { name: "Louis XIV", points: 10 },
-            { name: "Qin Shi Huang", points: 9 },
-            { name: "Ramses II", points: 8 }
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 5 },
+            { name: "Mao Zedong", points: 5 },
+            { name: "Joseph Stalin", points: 5 },
+            { name: "Mansa Musa", points: 5 },
+            { name: "Donald Trump", points: 5 }
           ]
         },
         {
-          text: "They are to be protected and cared for",
+          text: "A strong centralized government with unilateral power",
           rulers: [
-            { name: "Emperor Ashoka", points: 10 },
-            { name: "Cyrus the Great", points: 9 },
-            { name: "Marcus Aurelius", points: 8 }
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 4 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 1 },
+            { name: "Donald Trump", points: 0 }
           ]
         },
         {
-          text: "They are valuable resources to be utilized effectively",
+          text: "A wealthy economy",
           rulers: [
-            { name: "Catherine the Great", points: 9 },
-            { name: "Augustus", points: 8 },
-            { name: "Genghis Khan", points: 7 }
+            { name: "Genghis Khan", points: 1 },
+            { name: "Napoleon", points: 5 },
+            { name: "Mao Zedong", points: 5 },
+            { name: "Joseph Stalin", points: 5 },
+            { name: "Mansa Musa", points: 4 },
+            { name: "Donald Trump", points: 6 }
+          ]
+        },
+        {
+          text: "A huge palace that makes everyone jealous",
+          rulers: [
+            { name: "Genghis Khan", points: 0 },
+            { name: "Napoleon", points: 5 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 1 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 0 }
           ]
         }
       ]
     },
     {
-      question: "What is your preferred architectural style?",
+      question: "What's your policy on crime and punishment?",
       choices: [
         {
-          text: "Massive monuments to display power",
+          text: "Harsh penalties—deterrence is key",
           rulers: [
-            { name: "Ramses II", points: 10 },
-            { name: "Qin Shi Huang", points: 9 },
-            { name: "Louis XIV", points: 8 }
+            { name: "Genghis Khan", points: 4 },
+            { name: "Napoleon", points: 3 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 1 },
+            { name: "Donald Trump", points: 2 }
           ]
         },
         {
-          text: "Practical and defensive structures",
+          text: "Fines for the rich, executions for the poor",
           rulers: [
-            { name: "Genghis Khan", points: 7 },
-            { name: "Charlemagne", points: 8 },
-            { name: "Justinian I", points: 9 }
+            { name: "Genghis Khan", points: 3 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 1 },
+            { name: "Joseph Stalin", points: 2 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 5 }
           ]
         },
         {
-          text: "Beautiful and culturally significant buildings",
+          text: "Public trials, but the verdict is always guilty",
           rulers: [
-            { name: "Emperor Ashoka", points: 9 },
-            { name: "Augustus", points: 8 },
-            { name: "Akbar", points: 10 }
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 4 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 2 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 3 }
+          ]
+        },
+        {
+          text: "Forgive and Forget",
+          rulers: [
+            { name: "Genghis Khan", points: 5 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 4 },
+            { name: "Donald Trump", points: 1 }
+          ]
+        }
+      ]
+    },
+    {
+      question: "What is the role of religion in state?",
+      choices: [
+        {
+          text: "Religion has no place in government",
+          rulers: [
+            { name: "Genghis Khan", points: 1 },
+            { name: "Napoleon", points: 4 },
+            { name: "Mao Zedong", points: 6 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 2 }
+          ]
+        },
+        {
+          text: "The government should follow some religious guidelines, but not be dependent",
+          rulers: [
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 3 }
+          ]
+        },
+        {
+          text: "Religious scholars are useful to have in government",
+          rulers: [
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 1 },
+            { name: "Mao Zedong", points: 3 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 0 }
+          ]
+        }
+      ]
+    },
+    {
+      question: "How much rights do your women have?",
+      choices: [
+        {
+          text: "Little to no rights for themselves",
+          rulers: [
+            { name: "Genghis Khan", points: 1 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 4 }
+          ]
+        },
+        {
+          text: "They have the same or almost the same amount of rights as men",
+          rulers: [
+            { name: "Genghis Khan", points: 5 },
+            { name: "Napoleon", points: 0 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 6 },
+            { name: "Mansa Musa", points: 5 },
+            { name: "Donald Trump", points: 2 }
+          ]
+        },
+        {
+          text: "They have some rights, but not as much as the men",
+          rulers: [
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 5 },
+            { name: "Mao Zedong", points: 5 },
+            { name: "Joseph Stalin", points: 5 },
+            { name: "Mansa Musa", points: 4 },
+            { name: "Donald Trump", points: 4 }
+          ]
+        }
+      ]
+    },
+    {
+      question: "How do you display your glory?",
+      choices: [
+        {
+          text: "Hold violent beheadings",
+          rulers: [
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 1 },
+            { name: "Mao Zedong", points: 2 },
+            { name: "Joseph Stalin", points: 2 },
+            { name: "Mansa Musa", points: 0 },
+            { name: "Donald Trump", points: 0 }
+          ]
+        },
+        {
+          text: "Showcase your military might",
+          rulers: [
+            { name: "Genghis Khan", points: 6 },
+            { name: "Napoleon", points: 6 },
+            { name: "Mao Zedong", points: 5 },
+            { name: "Joseph Stalin", points: 5 },
+            { name: "Mansa Musa", points: 3 },
+            { name: "Donald Trump", points: 4 }
+          ]
+        },
+        {
+          text: "Build grand monuments to your greatness",
+          rulers: [
+            { name: "Genghis Khan", points: 3 },
+            { name: "Napoleon", points: 1 },
+            { name: "Mao Zedong", points: 4 },
+            { name: "Joseph Stalin", points: 3 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 0 }
+          ]
+        },
+        {
+          text: "Displaying exotic goods obtained through widespread trade",
+          rulers: [
+            { name: "Genghis Khan", points: 2 },
+            { name: "Napoleon", points: 2 },
+            { name: "Mao Zedong", points: 0 },
+            { name: "Joseph Stalin", points: 0 },
+            { name: "Mansa Musa", points: 6 },
+            { name: "Donald Trump", points: 0 }
           ]
         }
       ]
@@ -405,6 +730,29 @@
   // Close the results modal
   function closeResults() {
     showResults = false;
+  }
+  
+  // Share results
+  function shareResults() {
+    const shareText = `I am most like ${resultData.topRuler} (${resultData.topPercentage}% match) according to the Historical Ruler Quiz! Discover which ruler you match with!`;
+    
+    if (navigator.share) {
+      navigator.share({
+        title: 'My Historical Ruler Match',
+        text: shareText,
+        url: window.location.href
+      })
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      // Fallback for browsers that don't support the Web Share API
+      navigator.clipboard.writeText(shareText + ' ' + window.location.href)
+        .then(() => {
+          alert('Results copied to clipboard! Share with your friends.');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
   }
 </script>
 
@@ -873,6 +1221,58 @@
     opacity: 0.8;
   }
   
+  .share-container {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px dotted #c0a080;
+  }
+  
+  .share-btn {
+    background-color: #8c6b3b;
+    color: #fffaf0;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'Libre Baskerville', 'Palatino Linotype', serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 5px rgba(78, 54, 41, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .share-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+    z-index: 1;
+  }
+  
+  .share-btn:hover {
+    background-color: #73583a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(78, 54, 41, 0.3);
+  }
+  
+  .share-btn:hover::before {
+    left: 100%;
+  }
+  
+  .share-icon {
+    margin-right: 10px;
+  }
+  
   @media (max-width: 768px) {
     .result-section {
       flex-direction: column;
@@ -891,9 +1291,9 @@
 
 <div class="container">
   <div class="header-decoration"></div>
-  <h1>What Ancient Ruler Are You?</h1>
+  <h1>Which Historical Ruler Are You?</h1>
   <div class="quote">
-    "History is a tale told by the rulers of old. Which one tells your story?"
+    "From conquerors to revolutionaries, history is defined by those who rule. Discover which one you most resemble."
   </div>
   <div class="compass"></div>
   
@@ -969,6 +1369,15 @@
         <p>Your runner-up is <strong>{resultData.runnerUp}</strong> with a 
           <span class="percentage">{resultData.runnerUpPercentage}%</span> match. 
           In another time, you might have ruled differently!</p>
+      </div>
+      
+      <div class="share-container">
+        <button class="share-btn" on:click={shareResults}>
+          <svg class="share-icon" viewBox="0 0 24 24" width="16" height="16">
+            <path fill="currentColor" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z" />
+          </svg>
+          Share My Result
+        </button>
       </div>
     </div>
   </div>
