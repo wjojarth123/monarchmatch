@@ -1137,7 +1137,7 @@
   .circle {
     fill: none;
     stroke-width: 12;
-    stroke-dasharray: 0, 100;
+    stroke-dasharray: 0, 251.33; /* Circumference of circle with r=40: 2*PI*40 */
     transform: rotate(-90deg);
     transform-origin: center;
     stroke-linecap: round;
@@ -1146,7 +1146,7 @@
   
   .chart-background {
     stroke: rgba(210, 180, 140, 0.3);
-    stroke-dasharray: 100, 0;
+    stroke-dasharray: 251.33, 0; /* Full circumference */
   }
   
   .chart-value {
@@ -1354,7 +1354,7 @@
               <svg width="180" height="180" viewBox="0 0 100 100">
                 <circle class="circle chart-background" cx="50" cy="50" r="40" />
                 <circle class="circle chart-value" cx="50" cy="50" r="40" 
-                  style="stroke-dasharray: {resultData.topPercentage >= 100 ? '100, 0' : `${resultData.topPercentage}, 100`}" />
+                  style="stroke-dasharray: {resultData.topPercentage >= 100 ? '251.33, 0' : `${Math.round(resultData.topPercentage * 2.5133)}, 251.33`}" />
               </svg>
               <div class="chart-center">
                 <span class="chart-percentage animate-in">{resultData.topPercentage}%</span>
